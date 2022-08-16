@@ -1,0 +1,24 @@
+.include cmos_130nm.txt
+
+M26 m n c 0 NMOS          W= 120U L= 0.25U
+M27 c c 0 0 NMOS             W= 45U L= 0.25U
+
+
+
+*resistor
+R22  n m 7564
+
+
+*supply**
+V1 vdd 0 1.5
+
+* Iref required for constant current mirror*
+Iref vdd  n 50U
+
+
+.control
+op
+set xbrushwidth = 4
+print v(m)
+.endc
+.end

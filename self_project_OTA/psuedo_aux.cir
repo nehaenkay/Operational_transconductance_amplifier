@@ -1,0 +1,175 @@
+*** netlisting can be given as
+
+.include cmos_130nm.txt
+
+M13 9 1 vdd vdd PMOS          W= 23.64375U L= 0.8U
+M14 Vout 1 vdd vdd PMOS       W= 23.64375U L= 0.8U
+M10 Vout 8 vdd vdd PMOS       W= 51.76U L= 0.6U
+M9 9 2 vdd vdd PMOS           W= 51.76U L= 0.6U
+M7 6 1 vdd vdd PMOS           W= 162.65U L= 0.8U
+M8 7 1 vdd vdd PMOS           W= 162.65U L= 0.8U
+M5 2 u 6 6 PMOS             W= 130.12U L= 1U
+M6 8 u 7 7 PMOS             W= 130.12U L= 1U
+M11 9 p 0 0 NMOS            W= 4.25U L= 1U
+M12 Vout p 0 0 NMOS         W= 4.25U L= 1U
+M3 2 p 3 0 NMOS             W= 54.97U L= 0.75U
+M4 8 p 4 0 NMOS             W= 54.97U L= 0.75U
+M1 3 Vin1 5 0 NMOS            W= 137.43U L= 0.3U
+M2 4 Vin2 5 0 NMOS            W= 137.43U L= 0.3U
+
+
+MA1 14 Vin1 19 0 NMOS            W=70.52U L= 1U
+MA2 20 Vin2 19 0 NMOS            W= 70.52U L= 1U
+MP1 9 16 vdd vdd PMOS            W= 419.86U L= 0.18U
+MP2 Vout 18 vdd vdd PMOS         W= 419.86U L= 0.18U
+MN1 9 15 0 0 NMOS                W= 163.33U L= 0.18U
+MN2 Vout 17 0 0 NMOS             W= 163.33U L= 0.18U
+
+* netlist for VBIAS1,2,3 and IB1,3
+
+M18 p r q 0 NMOS          W= 2U L= 1U
+M19 q q 0 0 NMOS             W= 1.92918U L= 1U
+M20 u t v 0 NMOS          W= 10U L= 1U
+M21 v v 0 0 NMOS             W= 11.08429U L= 1U
+Mref1 e e 0 0 NMOS          W= 1.15825U L= 1U
+M16 5 e 0 0 NMOS             W= 36.75U L= 1U
+M17 Vout e 0 0 NMOS             W= 5.762U L= 1U
+M22 9 e 0 0 NMOS             W= 5.762U L= 1U
+M23 19 e 0 0 NMOS             W= 4.913U L= 1U
+M24 f g h 0 NMOS          W= 2U L= 1U
+M25 h h 0 0 NMOS             W= 1.089U L= 1U
+M26 m n c 0 NMOS          W= 120U L= 0.25U
+M27 c c 0 0 NMOS             W= 45U L= 0.25U
+
+*resistor
+R1  2 1 2000k
+R2  1 8 2000k
+RZright  8 10 30k
+RZleft  2 11 30k
+RBright  u 12 20k
+RBleft  u 13 20k
+R18  r p 7564
+R20  t u 7564
+R21  g f 7564
+R22  n m 7564
+RA1  vdd 14 7.75k
+RA2  vdd 20 7.75k
+RBrighttop f 18 25k
+RBlefttop  f 16 25k
+RBrightbottom  m 17 25k
+RBleftbottom  m 15 25k
+
+*capacitor
+CZright 10 Vout 0.8p
+CZleft 11 9 0.8p
+CLr Vout 0 0.5p
+CLl 9 0 0.5p
+CBright 8 12 200f
+CBleft 2 13 200f
+CBrighttop 18 20 0.7p
+CBlefttop 16 14 0.7p
+CBrightbottom 20 17 0.7p
+CBleftbottom 14 15 0.7p
+
+
+*supply**
+V1 vdd 0 1.5
+
+* Iref required for constant current mirror*
+Iref vdd  e 50U
+Iref1 vdd  r 50U
+Iref2 vdd  t 50U
+Iref3 vdd  g 50U
+Iref4 vdd  n 50U
+
+** given value of Vcm to be used to calculate parameters**
+VG1 Vin1 0 0.75 ac 1
+VG2 Vin2 0 0.75 
+
+
+.control
+op
+set xbrushwidth = 2
+print v(Vout)
+print v(p)
+print v(u)
+print v(f)
+print v(m)
+print @M16[id]
+print @M22[id]
+print @M23[id]
+print @M12[id]
+print @M10[id]
+print @M16[id]
+print @M17[id]
+print @M22[id]
+print @M14[vds]-@M14[vgs]+@M14[vth]
+print @M14[vgs]-@M14[vth]
+print @M1[id]
+print @M2[id]
+print @M8[id]
+print @M9[id]
+print @M10[id]
+print @M11[id]
+print @M14[id]
+print @MA1[id]
+print @MA2[id]
+print @MP1[id]
+print @MN1[id]
+print @MP2[id]
+print @MN2[id]
+print @MA1[vds]
+print @MA2[vds]
+print @MP1[vds]
+print @MN1[vds]
+print @MP2[vds]
+print @MN2[vds]
+print @M12[vds]
+print @M12[id]
+print @M2[gm]
+print @M4[gm]
+print @M6[gm]
+print @M8[gm]
+print @M12[vds]
+Print @M11[vds]
+print 1/@M2[gds]
+print 1/@M4[gds]
+print 1/@M6[gds]
+print 1/@M8[gds]
+print @M6[gm]*((1/@M6[gds])*(1/@M8[gds]))
+print @M4[gm]*((1/@M4[gds])*(1/@M2[gds]))
+print (1/(@M2[gds]+@M4[gds]))
+print @M10[gm]
+print @M10[gm]*(1/(@M10[gds]+@M12[gds]))
+print @M1[vgs]-@M1[vth]
+print @M2[vgs]-@M2[vth]
+print @M3[vgs]-@M3[vth]
+print @M4[vgs]-@M4[vth]
+print @M5[vgs]-@M5[vth]
+print @M6[vgs]-@M6[vth]
+print @M7[vgs]-@M7[vth]
+print @M8[vgs]-@M8[vth]
+print @M10[vgs]-@M10[vth]
+print @M12[vgs]-@M12[vth]
+print @M1[vds]-@M1[vgs]+@M1[vth]
+print @M2[vds]-@M2[vgs]+@M2[vth]
+print @M3[vds]-@M3[vgs]+@M3[vth]
+print @M4[vds]-@M4[vgs]+@M4[vth]
+print @M5[vds]-@M5[vgs]+@M5[vth]
+print @M6[vds]-@M6[vgs]+@M6[vth]
+print @M7[vds]-@M7[vgs]+@M7[vth]
+print @M8[vds]-@M8[vgs]+@M8[vth]
+print @M10[vds]-@M10[vgs]+@M10[vth]
+print @M12[vds]-@M12[vgs]+@M12[vth]
+
+
+ac dec 100 1 10G
+plot vdb(Vout)
+plot (180/pi)*phase(Vout)  
+
+
+.endc
+.end
+
+
+

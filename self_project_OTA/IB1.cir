@@ -1,0 +1,26 @@
+.include cmos_130nm.txt
+
+Mref1 e e 0 0 NMOS          W= 1.15825U L= 1U
+M16 vdd2 e 0 0 NMOS             W= 36.658U L= 1U
+M17 vdd3 e 0 0 NMOS             W= 5.7562U L= 1U
+M18 vdd4 e 0 0 NMOS             W= 4.9124U L= 1U
+
+
+
+*supply**
+V1 vdd 0 1.5
+V2 vdd2 0 0.3
+V3 vdd3 0 0.77
+V4 vdd4 0 0.296
+
+* Iref required for constant current mirror*
+Iref vdd  e 50U
+
+
+.control
+op
+print @M16[id]
+print @M17[id]
+print @M18[id]
+.endc
+.end

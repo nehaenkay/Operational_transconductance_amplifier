@@ -1,0 +1,108 @@
+*** netlisting can be given as
+
+.include cmos_130nm.txt
+
+
+M10 Vout2 8 vdd vdd PMOS       W= 51.76U L= 0.6U
+M9 Vout1 2 vdd vdd PMOS           W= 51.76U L= 0.6U
+M7 6 1 vdd vdd PMOS           W= 162.65U L= 0.8U
+M8 7 1 vdd vdd PMOS           W= 162.65U L= 0.8U
+M5 2 u 6 6 PMOS             W= 130.12U L= 1U
+M6 8 u 7 7 PMOS             W= 130.12U L= 1U
+M11 Vout1 p 0 0 NMOS            W= 4.25U L= 1U
+M12 Vout2 p 0 0 NMOS         W= 4.25U L= 1U
+M3 2 p 3 0 NMOS             W= 54.97U L= 0.75U
+M4 8 p 4 0 NMOS             W= 54.97U L= 0.75U
+M1 3 VG1 5 0 NMOS            W= 137.43U L= 0.3U
+M2 4 VG2 5 0 NMOS            W= 137.43U L= 0.3U
+
+
+MA1 14 Vin1 19 0 NMOS            W=70.52U L= 1U
+MA2 20 Vin2 19 0 NMOS            W= 70.52U L= 1U
+MP1 Vout1 16 vdd vdd PMOS            W= 419.86U L= 0.18U
+MP2 Vout2 18 vdd vdd PMOS         W= 419.86U L= 0.18U
+MN1 Vout1 15 0 0 NMOS                W= 163.33U L= 0.18U
+MN2 Vout2 17 0 0 NMOS             W= 163.33U L= 0.18U
+
+* netlist for VBIAS1,2,3 and IB1,3
+
+M18 p r q 0 NMOS          W= 2U L= 1U
+M19 q q 0 0 NMOS             W= 1.92918U L= 1U
+M20 u t v 0 NMOS          W= 10U L= 1U
+M21 v v 0 0 NMOS             W= 11.08429U L= 1U
+Mref1 e e 0 0 NMOS          W= 1.15825U L= 1U
+M16 5 e 0 0 NMOS             W= 36.75U L= 1U
+M23 19 e 0 0 NMOS             W= 4.913U L= 1U
+M24 f g h 0 NMOS          W= 2U L= 1U
+M25 h h 0 0 NMOS             W= 1.089U L= 1U
+M26 m n c 0 NMOS          W= 120U L= 0.25U
+M27 c c 0 0 NMOS             W= 45U L= 0.25U
+
+*resistor
+R1  2 1 2000k
+R2  1 8 2000k
+RZright  8 10 30k
+RZleft  2 11 30k
+RBright  u 12 20k
+RBleft  u 13 20k
+R18  r p 7564
+R20  t u 7564
+R21  g f 7564
+R22  n m 7564
+RA1  vdd 14 7.75k
+RA2  vdd 20 7.75k
+RBrighttop f 18 25k
+RBlefttop  f 16 25k
+RBrightbottom  m 17 25k
+RBleftbottom  m 15 25k
+RSL1  Vm1 VG1 100k
+RSL2  Vm2 VG2 400k
+
+*capacitor
+CZright 10 Vout2 0.9p
+CZleft 11 Vout1 0.9p
+CLr Vout2 0 0.5p
+CLl Vout1 0 0.5p
+CBright 8 12 200f
+CBleft 2 13 200f
+CBrighttop 18 20 0.05p
+CBlefttop 16 14 0.05p
+CBrightbottom 20 17 1.5p
+CBleftbottom 14 15 1.5p
+
+C21 VG1 vin1 0.0095p
+C22 VG2 vin2 0.0095p
+C11 VG1 vout2 0.0007p
+C12 VG2 Vout1 0.0007p
+
+*supply**
+V1 vdd 0 1.5
+
+* Iref required for constant current mirror*
+Iref vdd  e 50U
+Iref1 vdd  r 50U
+Iref2 vdd  t 50U
+Iref3 vdd  g 50U
+Iref4 vdd  n 50U
+
+
+** given value of Vcm to be used to calculate parameters**
+V2 Vm1 0 0.75 
+V3 Vm2 0 0.75 
+ 
+***TRANSIENT ANALYSIS with pulse inputs
+VCk1 vin1 0 DC 0 PULSE(0 0.5 0ns 1pS 1pS 100nS 200nS)
+VCk2 vin2 0 DC 0 PULSE(0 0 5ns 1pS 1pS 100nS 200nS)
+  
+
+.tran 5ns 1000ns 0nS
+.control
+run
+let vdout = vout1
+let vdin = vin1-vin2
+plot V(vdout) V(vdin)
+*plot v(vout1) v(vout2)
+meas tran drise TRIG v(vdout) VAL=0 RISE=2 TARG v(vdout) VAL=0.3 RISE=2
+meas tran dfall TRIG v(vdout) VAL=0.5 FALL=2 TARG v(vdout) VAL=0.2 FALL=2 
+.endc
+.end
